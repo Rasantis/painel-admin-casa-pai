@@ -1,0 +1,14 @@
+O que arrumar no app:
+
+Na hora de logar, o login ser opcional, então ter um botão, "Pular login"
+na outra tela mostrar, usuário anônimo.
+
+Colocar marcador de ft de estacionamento com os campos: endereço, preço por hora e telefone.
+	
+
+Na hora que vamos criar a conta, rola uma troca de botão(bug).
+
+Testar integração de anúncios com admob, mas deixar comentado, vou subir na próxima atualização.
+
+Publicar app na playstore(Já tenho conta)
+

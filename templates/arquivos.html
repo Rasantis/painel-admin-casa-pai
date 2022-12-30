@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+</head>
+
+<body>
+    <style>
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        li.file-item {
+            cursor: pointer;
+            padding: 12px;
+            border: 1px solid #ddd;
+            margin-bottom: 12px;
+            background-color: #f8f8f8;
+        }
+
+        li.file-item:hover {
+            background-color: #e8e8e8;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: #000;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+
+        .modal-content {
+            position: relative;
+            background-color: #fff;
+            margin: 15% auto;
+            padding: 20px;
+            width: 80%;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .btn {
+            border: none;
+            outline: none;
+            padding: 10px 16px;
+            cursor: pointer;
+            font-size: 14px;
+            border-radius: 2px;
+        }
+
+        .btn-secondary {
+            background-color: #ccc;
+            color: #fff;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            color: #fff;
+        }
+    </style>
+
+
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <p>Conteúdo do arquivo</p>
+            <button id="btn-edit" class="btn btn-secondary">Editar</button>
+            <button id="btn-save" class="btn btn-primary" style="display:none;">Salvar</button>
+        </div>
+    </div>
+    <form action="/arquivos" method="post">
+        <!-- <input type="hidden" name="file_name" id="file-name-input"> -->
+        <textarea name="new_content" id="new-content-textarea"></textarea>
+        <ul>
+            <input type="hidden" name="file_name" id="file-name-input">
+        {% for file in files %}
+        {% if os.path.isfile(os.path.join(UPLOAD_FOLDER, file)) %}
+        <li class="file-item" data-filename="{{ file }}">{{ file }}<button> <a href="#" class="edit-button" data-file-name="{{ file }}">Editar</a></button>
+            <button id="btn-save" class="btn btn-primary" type="submit">Salvar</button>
+
+            <br>
+        </li>
+        {% endif %}
+        {% endfor %}
+    </ul>
+    </form>
+
+
+    <script>
+        // Adiciona o evento click a cada item da lista de arquivos
+        var fileItems = document.querySelectorAll('.file-item');
+        for (var i = 0; i < fileItems.length; i++) {
+            fileItems[i].addEventListener('click', function () {
+                var filename = this.getAttribute('data-filename');
+                openModal(filename);
+            });
+        }
+
+        function openModal(filename) {
+            var filename;
+            // Mostra o modal
+            document.getElementById('myModal').style.display = 'block';
+
+            // Faz a requisição AJAX para buscar o conteúdo do arquivo
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    // Preenche o conteúdo do modal com o conteúdo do arquivo
+                    document.querySelector('#myModal .modal-content p').innerHTML = xhr.responseText;
+                }
+            };
+            xhr.open('GET', '/get-file/' + filename, true);
+            xhr.send();
+        }
+
+        // Fecha o modal ao clicar no botão de fechar
+        var closeButton = document.querySelector('.close');
+        closeButton.addEventListener('click', function () {
+            document.getElementById('myModal').style.display = 'none';
+        });
+
+        // Adiciona o evento click no botão de editar
+        document.getElementById('btn-edit').addEventListener('click', function () {
+            // Troca o conteúdo da tag p para um input de texto
+            var content = document.querySelector('#myModal .modal-content p');
+            var input = document.createElement('input');
+            input.type = 'text';
+            input.value = content.innerHTML;
+            content.innerHTML = '';
+            content.appendChild(input);
+
+            // Mostra o botão de salvar e esconde o de editar
+            document.getElementById('btn-save').style.display = 'inline-block';
+            this.style.display = 'none';
+        });
+
+//parte de salvar edição
+
+
+
+    </script>
+</body>
+
+</html>

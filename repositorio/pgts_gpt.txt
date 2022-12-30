@@ -1,0 +1,11 @@
+crie uma função javascript para mostrar a data de hoje
+
+crie um código python para abrir a webcam do meu notebook usando python e opencv
+
+Crie um código python que faça deploy automático no github
+
+Crie um código python para fazer a predição do valor de um imóvel
+
+por favor, crie um arquivo em power point sobre startups e novos negócios até 2023
+
+se você pudesse fazer uma startup para ter sucesso em 2023, qual você faria?

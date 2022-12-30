@@ -1,0 +1,7 @@
+Como rodar cvedia, seguir passo a passo no discord conversa com o maurizio.
+em relação ao mqtt:
+Tendo o mosquitto instalado: abrir o terminal e rodar cd .. até chegar na pasta c:
+
+chegando lá rodar o comando:mosquitto -v
+
+após isso seguir como no discord
